@@ -3,7 +3,7 @@ parts of the Python runtime environment. It allows operating on the interpreter 
  strongly with the interpreter. Lets consider the below example."""
 
 import sys
-import logging
+from src.logger import logging
 
 def error_msg_detail(error,error_detail:sys):
     _,_,exc_tb = error_detail.exc_info() # this is execution info this gives 3 details and the 3rd variable exc_tb Gives below written 'error_msg'
@@ -20,7 +20,6 @@ def error_msg_detail(error,error_detail:sys):
     return error_msg
 
 
-
 class CustomException(Exception):
     def __init__(self, error_message,error_detail:sys) :
         super().__init__(error_message)
@@ -29,3 +28,13 @@ class CustomException(Exception):
     def __str__(self):
         return self.error_message
 
+
+
+if __name__ == "__main__":
+
+    try:
+        a = 1/0
+    except Exception as e:
+        logging.info("ZERO Division error")
+        raise CustomException(e,sys)
+    
