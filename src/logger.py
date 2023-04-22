@@ -19,5 +19,3 @@ logging.basicConfig(
     # ,datefmt='%d/%b/%Y %I:%M:%S %p'
 )
 
-if __name__ == "__main__":
-    logging.info("logging has started")
