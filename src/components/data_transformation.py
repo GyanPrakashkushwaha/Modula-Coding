@@ -8,6 +8,7 @@ from src.exception import CustomException
 from src.logger import logging
 from dataclasses import dataclass
 
+import pickle
 import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
@@ -27,7 +28,7 @@ class DataTransformation:
     def __init__(self) :
         self.data_transformation_config= DataTranformationConfig()
 
-    def get_data_transformer_obj(self): # this is for data transformation
+    def get_data_transformer_object(self): # this function is for data transformation
         
         try:
             numerical_columns = ["writing_score", "reading_score"]
@@ -41,7 +42,7 @@ class DataTransformation:
 
             num_pipeline = Pipeline(
                 steps=[
-                ('impute', SimpleImputer(strategy='median')),
+                ('imputer', SimpleImputer(strategy='median')),
                 ('scaler',StandardScaler())
                 ]
             )
@@ -51,7 +52,7 @@ class DataTransformation:
                 steps=[
                 ('imputer',SimpleImputer(strategy='most_frequent')),
                 ('one_hot_encoder',OneHotEncoder()),
-                ('Scaler',StandardScaler())
+                # ('Scaler',StandardScaler())
                 ]
             )        
 
@@ -82,9 +83,9 @@ class DataTransformation:
 
             logging.info('Obtaining preprocessing object')
 
-            preprocessor_obj = self.get_data_transformer_obj()
+            preprocessor_obj = self.get_data_transformer_object()
 
-            target_col_name = 'math_socre'
+            target_col_name ="math_score"
             numerical_columns = ["writing_score", "reading_score"]
 
             input_feature_train_df = train_df.drop(columns=[target_col_name], axis=1)
@@ -103,14 +104,15 @@ class DataTransformation:
             train_arr = np.c_[
                 input_feature_train_arr, np.array(target_feature_train_df)
             ]
-            test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)] # np.c_ this concatenate like np.concat function but its axis is by default '1'
+            test_arr = np.c_[
+                input_feature_test_arr, np.array(target_feature_test_df)
+                ] # np.c_ this concatenate like np.concat function but its axis is by default '1'
 
             logging.info(f"Saved preprocessing object.")
 
             
             save_object(
-
-                file_path=self.data_transformation_config.preprocessor_obj_file_path,
+                file_path=self.data_transformation_config.preprocessor_ob_file_path,
                 obj=preprocessor_obj
             )
             # this is for saving pickle
@@ -122,9 +124,7 @@ class DataTransformation:
                 self.data_transformation_config.preprocessor_ob_file_path
             )
             
-
-            
-        except:
-            pass
+        except Exception as e:
+            raise CustomException(e,sys)
 
 

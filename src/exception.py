@@ -8,6 +8,7 @@ from src.logger import logging
 def error_msg_detail(error,error_detail:sys):
     _,_,exc_tb = error_detail.exc_info() # this is execution info this gives 3 details and the 3rd variable exc_tb Gives below written 'error_msg'
 
+
     file_name = exc_tb.tb_frame.f_code.co_filename # this is for file name 
     
     error_msg = "Error occured in python script name [{0}] line number [{1}] error message [{2}]".format(

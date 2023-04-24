@@ -1,4 +1,4 @@
-"""  this is for logginh all the information in some text file  """
+"""  this is for logging all the information in some text file  """
 
 import logging
 import os
