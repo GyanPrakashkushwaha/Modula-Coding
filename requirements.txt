@@ -5,3 +5,6 @@ scikit-learn
 # -e .
 # catoost
 xgboost
+Flask
+flask
+dill
