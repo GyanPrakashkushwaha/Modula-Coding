@@ -19,3 +19,4 @@ logging.basicConfig(
     # ,datefmt='%d/%b/%Y %I:%M:%S %p'
 )
 
+logging.info('hello')
